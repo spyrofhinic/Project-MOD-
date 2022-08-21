@@ -1,0 +1,66 @@
+--@ BeginProperty
+--@ SyncDirection=All
+Component TaxiTransform = "nil"
+--@ EndProperty
+
+--@ BeginProperty
+--@ SyncDirection=All
+Component AzallinTransform = "nil"
+--@ EndProperty
+
+--@ BeginProperty
+--@ SyncDirection=All
+Component entityTemplateTransform = "nil"
+--@ EndProperty
+
+--@ BeginProperty
+--@ SyncDirection=None
+Component entityTemplateTransform2 = "nil"
+--@ EndProperty
+
+--@ BeginMethod
+--@ MethodExecSpace=ServerOnly
+void OnBeginPlay()
+{
+local taxi = self.Entity
+self.TaxiTransform = taxi.TransformComponent
+
+local azallin = _EntityService:GetEntityByPath("/maps/map01/Azallin") -- Added
+self.AzallinTransform = azallin.TransformComponent -- Added
+
+local entityTemplate = _EntityService:GetEntityByPath("/maps/map01/object-49") -- Added
+self.entityTemplateTransform = entityTemplate.TransformComponent -- Added
+
+local entityTemplate2 = _EntityService:GetEntityByPath("/maps/map01/foothold-21") -- Added
+self.entityTemplateTransform2 = entityTemplate2.TransformComponent -- Added
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=ServerOnly
+void OnUpdate(number delta)
+{
+
+local pos = self.TaxiTransform.Position -- Previous
+local targetPos = self.AzallinTransform.Position -- Added
+local pos2 = self.entityTemplateTransform.Position
+local pos3 = self.entityTemplateTransform2.Position
+
+if targetPos.x < pos.x then -- Added
+  pos.x = pos.x - 0.02 -- Previous
+  self.TaxiTransform.Position = pos -- Previous
+end
+
+if targetPos.x < pos2.x then -- Added
+  pos2.x = pos2.x - 0.02 -- Previous
+  self.entityTemplateTransform.Position = pos2 -- Previous
+end
+
+if targetPos.x < pos3.x then -- Added
+  pos3.x = pos3.x - 0.02 -- Previous
+  self.entityTemplateTransform2.Position = pos3 -- Previous
+end
+
+}
+--@ EndMethod
+
