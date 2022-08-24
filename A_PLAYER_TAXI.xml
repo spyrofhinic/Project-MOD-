@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeBlockFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="040ac187-30d5-4b9f-a501-af9a1436e8fc" Language="Lua" Name="A_PLAYER_TAXI" Type="Component" Source="None" ModifyTime="2022-08-22T16:20:57.5280538+07:00">
+  <CoreVersion Major="0" Minor="2" />
+  <ScriptVersion Major="1" Minor="0" />
+  <Description />
+  <Properties />
+  <Methods>
+    <CodeBlockMethod Name="OnBeginPlay" ExecSpace="ServerOnly">
+      <Return Type="void" SyncDirection="None" />
+      <Code><![CDATA[
+self.Entity.AvatarRendererComponent.Enable= false
+self.Entity.SpriteRendererComponent.FlipX = false
+]]></Code>
+    </CodeBlockMethod>
+    <CodeBlockMethod Name="SpawnMonster" ExecSpace="All">
+      <Return Type="void" SyncDirection="None" />
+      <Code><![CDATA[
+--local parent = _EntityService:GetEntityByPath("/maps/map01/20376000034174043")
+
+
+]]></Code>
+    </CodeBlockMethod>
+  </Methods>
+  <EntityEventHandlers>
+    <CodeBlockEntityEventHandler Name="HandleKeyDownEvent" EventName="KeyDownEvent" Target="service:InputService" Scope="All">
+      <Code><![CDATA[
+-- Parameters
+local key = event.key
+--------------------------------------------------------
+if key == KeyboardKey.LeftArrow then
+	self.Entity.SpriteRendererComponent.FlipX = false
+end
+if key == KeyboardKey.RightArrow then
+	self.Entity.SpriteRendererComponent.FlipX = true
+end
+]]></Code>
+    </CodeBlockEntityEventHandler>
+  </EntityEventHandlers>
+</CodeBlockFile>

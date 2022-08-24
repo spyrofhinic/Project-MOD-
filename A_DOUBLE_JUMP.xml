@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeBlockFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="2bf10f63-3996-41d7-9be9-f91a30f8f598" Language="Lua" Name="A_DOUBLE_JUMP" Type="Component" Source="None" ModifyTime="2022-08-23T20:40:45.2106297+07:00">
+  <CoreVersion Major="0" Minor="2" />
+  <ScriptVersion Major="1" Minor="0" />
+  <Description />
+  <Properties>
+    <CodeBlockProperty Name="jump_force" Type="number" DefaultValue="5" SyncDirection="All" />
+    <CodeBlockProperty Name="Jump_front" Type="number" DefaultValue="2" SyncDirection="All" />
+    <CodeBlockProperty Name="is_second_jump" Type="boolean" DefaultValue="false" SyncDirection="All" />
+  </Properties>
+  <Methods>
+    <CodeBlockMethod Name="OnBeginPlay" ExecSpace="ServerOnly">
+      <Return Type="void" SyncDirection="None" />
+      <Code><![CDATA[
+self.is_second_jump = false
+]]></Code>
+    </CodeBlockMethod>
+  </Methods>
+  <EntityEventHandlers>
+    <CodeBlockEntityEventHandler Name="HandleKeyDownEvent" EventName="KeyDownEvent" Target="service:InputService" Scope="All">
+      <Code><![CDATA[
+-- Parameters
+local key = event.key
+--------------------------------------------------------
+if key == KeyboardKey.Space or key == KeyboardKey.LeftAlt then
+            if not self.Entity.RigidbodyComponent:IsOnGround() and self.is_second_jump == false then
+                local lookDirectionX = self.Entity.PlayerControllerComponent.LookDirectionX
+                self.Entity.RigidbodyComponent:SetForce(Vector2(lookDirectionX * self.Jump_front, self.jump_force))
+			_SoundService:PlaySound("53ee91e851cc427c9c09337feabd7c9e",0.7)
+
+			   self.is_second_jump = true
+		   end
+end
+
+if self.Entity.RigidbodyComponent:IsOnGround() == true then
+	self.is_second_jump = false
+end
+]]></Code>
+    </CodeBlockEntityEventHandler>
+  </EntityEventHandlers>
+</CodeBlockFile>
