@@ -1,0 +1,196 @@
+--@ BeginProperty
+--@ SyncDirection=All
+Component Monster = ":Monster"
+--@ EndProperty
+
+--@ BeginMethod
+--@ MethodExecSpace=ServerOnly
+void OnBeginPlay()
+{
+self.Monster = self.Entity:GetComponent("Monster")
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=ServerOnly
+void OnUpdate(number delta)
+{
+if self.Monster and self.Monster.IsDead == false then
+	self:AttackNear()
+end
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=All
+override int CalcDamage(Entity attacker,Entity defender,string attackInfo)
+{
+return 15000
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=All
+override boolean IsAttackTarget(Entity defender,string attackInfo)
+{
+return true
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=All
+void AttackNear()
+{
+local attackSize = Vector2(1,1)
+local attackOffset = Vector2(0,0)
+local hitComponent = self.Entity.HitComponent
+-- 현재 sprite 사이즈를 알수 없어서 우선 hit것이 있다면 그것을 가져온다.
+if hitComponent then
+	attackSize = hitComponent.BoxSize
+	attackOffset = hitComponent.BoxOffset
+end
+
+self:Attack(attackSize, attackOffset, nil)
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=All
+void NormalAttack()
+{
+local attackSize = Vector2(1, 1)
+local attackOffset = Vector2(0,0)
+
+self:Attack(attackSize, attackOffset, nil)
+}
+--@ EndMethod
+
+--@ BeginEntityEventHandler
+--@ Scope=All
+--@ Target=service:InputService
+--@ EventName=KeyDownEvent
+HandleKeyDownEvent
+{
+
+-- Parameters
+local key = event.key
+local ActionName = event.ActionName
+local PlayerEntity = event.PlayerEntity
+--------------------------------------------------------
+
+local transform = self.Entity.TransformComponent
+local x = transform.Position.x
+local y = transform.Position.y
+local z = transform.Position.z
+
+if key == KeyboardKey.Q then
+    _EffectService:PlayEffect("01d8194f40ec4316b2911fd607acd9a3",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+	
+
+elseif key == KeyboardKey.W then
+    _EffectService:PlayEffect("aae828e6daa342a996320e32dc5c2ab6",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+elseif key == KeyboardKey.E then
+    _EffectService:PlayEffect("0da34c3dd7ba4c2890107d743b8c7a97",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+elseif key == KeyboardKey.R then
+    _EffectService:PlayEffect("5f67e1efe0b84d9c9111a21ecfedc937",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+	
+end
+}
+--@ EndEntityEventHandler
+
+
+
+
+
+
+
+
+
+
+
+
+
+--@ BeginMethod
+--@ MethodExecSpace=All
+void NormalAttack()
+{
+local attackSize = Vector2(1, 1)
+local attackOffset = Vector2(0,0)
+
+self:Attack(attackSize, attackOffset, nil)
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=All
+override int CalcDamage(Entity attacker,Entity defender,string attackInfo)
+{
+return 15000
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=All
+override boolean IsAttackTarget(Entity defender,string attackInfo)
+{
+return true
+}
+--@ EndMethod
+
+--@ BeginEntityEventHandler
+--@ Scope=All
+--@ Target=self
+--@ EventName=PlayerActionEvent
+HandlePlayerActionEvent
+{
+-- Parameters
+local ActionName = event.ActionName
+local PlayerEntity = event.PlayerEntity
+--------------------------------------------------------
+local ActionName = event.ActionName
+
+if ActionName == "Attack" then
+self:NormalAttack()
+end
+}
+--@ EndEntityEventHandler
+
+--@ BeginEntityEventHandler
+--@ Scope=All
+--@ Target=service:InputService
+--@ EventName=KeyDownEvent
+HandleKeyDownEvent
+{
+local key = event.key
+local ActionName = event.ActionName
+local PlayerEntity = event.PlayerEntity
+--------------------------------------------------------
+
+local transform = self.Entity.TransformComponent
+local x = transform.Position.x
+local y = transform.Position.y
+local z = transform.Position.z
+
+if key == KeyboardKey.Q then
+    _EffectService:PlayEffect("01d8194f40ec4316b2911fd607acd9a3",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+	ActionName == "Attack"
+
+elseif key == KeyboardKey.W then
+    _EffectService:PlayEffect("aae828e6daa342a996320e32dc5c2ab6",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+elseif key == KeyboardKey.E then
+    _EffectService:PlayEffect("0da34c3dd7ba4c2890107d743b8c7a97",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+elseif key == KeyboardKey.R then
+    _EffectService:PlayEffect("5f67e1efe0b84d9c9111a21ecfedc937",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+	
+end
+}
+--@ EndEntityEventHandler
+
+
+
+
+
+
+
+
+
