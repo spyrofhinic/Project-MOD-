@@ -1,0 +1,65 @@
+--@ BeginProperty
+--@ SyncDirection=All
+string Soundcode = ""cd1a2cfc410d4cbebf68e3c3070400ad""
+--@ EndProperty
+
+--@ BeginMethod
+--@ MethodExecSpace=Server
+void hitDong(Entity TriggerBodyEntity)
+{
+TriggerBodyEntity.HitComponent:OnHit(self.Entity, 1, false, "IDLE", 1)
+}
+--@ EndMethod
+
+--@ BeginMethod
+--@ MethodExecSpace=Server
+void deleteDong()
+{
+self.Entity:Destroy()
+}
+--@ EndMethod
+
+--@ BeginEntityEventHandler
+--@ Scope=Client
+--@ Target=self
+--@ EventName=TriggerEnterEvent
+HandleTriggerEnterEvent
+{
+-- Parameters
+local TriggerBodyEntity = event.TriggerBodyEntity
+--------------------------------------------------------
+
+local transform = self.Entity.TransformComponent
+local x = transform.Position.x
+local y = transform.Position.y
+local z = transform.Position.z 
+
+
+ TriggerBodyEntity.HitComponent:OnHit(self.Entity, 1, false, "IDLE", 1)
+_EffectService:PlayEffect("01891ebdfaa14647bc3e6e0982ea9bd2",self.Entity,Vector3(x,y,z), 0, Vector3(1,1,1), false)
+_SoundService:PlaySound(self.Soundcode,1,_UserService.LocalPlayer)
+self:hitDong(TriggerBodyEntity)
+self:deleteDong()
+
+}
+--@ EndEntityEventHandler
+
+--@ BeginEntityEventHandler
+--@ Scope=Client
+--@ Target=self
+--@ EventName=FootholdEnterEvent
+HandleFootholdEnterEvent
+{
+-- Parameters
+local Entity = event.Entity
+local Foothold = event.Foothold
+--------------------------------------------------------
+
+self:deleteDong()
+
+for key, value in pairs(_UserService.UserEntities) do
+	value.ScoreComponent.score = value.ScoreComponent.score + 1
+end
+}
+--@ EndEntityEventHandler
+
