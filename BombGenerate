@@ -1,0 +1,18 @@
+--@ BeginProperty
+--@ SyncDirection=All
+number time = "0"
+--@ EndProperty
+
+--@ BeginMethod
+--@ MethodExecSpace=ServerOnly
+void OnUpdate(number delta)
+{
+self.time = self.time + delta
+if self.time > 0.5 then
+	local randomNum = math.random(-4,5)
+	--_SpawnService:SpawnByModelId("model://68fcb8b8-8fc5-4642-bbcd-09c62afbe4ce", "Bomb", Vector3(randomNum,11,0), _EntityService:GetEntity("8d7420b7-6350-4db6-9920-ff90b1878be6"))
+	self.time = 0
+end
+}
+--@ EndMethod
+
