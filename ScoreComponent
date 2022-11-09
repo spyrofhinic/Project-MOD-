@@ -1,0 +1,25 @@
+--@ BeginProperty
+--@ SyncDirection=All
+number score = "0"
+--@ EndProperty
+
+--@ BeginProperty
+--@ SyncDirection=All
+number bestScore = "0"
+--@ EndProperty
+
+--@ BeginEntityEventHandler
+--@ Scope=All
+--@ Target=self
+--@ EventName=DeadEvent
+HandleDeadEvent
+{
+-- Parameters
+--------------------------------------------------------
+if self.score > self.bestScore then
+	self.bestScore = self.score
+end
+self.score = 0
+}
+--@ EndEntityEventHandler
+
